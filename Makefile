@@ -7,14 +7,29 @@ LINK=$(CC) $^ -o $@
 
 #################################################
 
-ascii.exe: bin/ascii.o
+lastManStanding.exe: \
+		bin/main__opt.o \
+		bin/gameBoard__opt.o
 	$(LINK)
 
 #################################################
 
-bin/ascii.o: src/ascii.cpp | bin
+bin/gameBoard.o: \
+		src/gameBoard.cpp \
+		include/gameBoard.h | bin
 	$(OBJECT)
-bin/ascii__opt.o: src/ascii.cpp | bin
+bin/gameBoard__opt.o: \
+		src/gameBoard.cpp \
+		include/gameBoard.h | bin
+	$(OPTIMIZED)
+
+bin/main.o: \
+		src/main.cpp \
+		include/gameBoard.h | bin
+	$(OBJECT)
+bin/main__opt.o: \
+		src/main.cpp \
+		include/gameBoard.h | bin
 	$(OPTIMIZED)
 
 #################################################

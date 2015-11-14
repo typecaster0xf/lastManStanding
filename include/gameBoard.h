@@ -3,18 +3,20 @@
 
 class GameBoard
 {
+public:
+	
 	GameBoard();
 	
 	//======
 	
-	unsigned int getPossibleMoves();
+	unsigned int getPossibleNumberOfMoves();
 	
 	bool isGameWon();
 	
 	GameBoard makeMove(unsigned int moveNumber);
 	
 	friend
-	std::ostream& operator<<(ostream&, const GameBoard gameBoard);
+	std::ostream& operator<<(std::ostream&, const GameBoard gameBoard);
 	
 protected:
 	
