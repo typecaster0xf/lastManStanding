@@ -154,8 +154,35 @@ GameBoard::BoardSpace** GameBoard::makeInitialSetup()
 vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 		const GameBoard::BoardSpace** board)
 {
-	//TODO
 	vector<Move> moves;
+	
+	for(unsigned int x = 0; x < boardLength; x++)
+		for(unsigned int y = 0; y < boardLength; y++)
+			if(board[x][y] == OCCUPIED)
+			{
+				/*Move marble left.*/
+				if((x >= 2) && (board[x - 1][y] == OCCUPIED)
+						&& (board[x - 2][y] == EMPTY))
+					moves.push_back({x, y, x - 2, y});
+				
+				/*Move marble right.*/
+				if((x + 2 < boardLength)
+						&& (board[x + 1][y] == OCCUPIED)
+						&& (board[x + 2][y] == EMPTY))
+					moves.push_back({x, y, x + 2, y});
+				
+				/*Move marble down.*/
+				if((y >= 2) && (board[x][y - 1] == OCCUPIED)
+						&& (board[x][y - 2] == EMPTY))
+					moves.push_back({x, y, x, y - 2});
+				
+				/*Move marble up.*/
+				if((y + 2 < boardLength)
+						&& (board[x][y + 1] == OCCUPIED)
+						&& (board[x][y + 2] == EMPTY))
+					moves.push_back({x, y, x, y + 2});
+			}
+	
 	return moves;
 }
 

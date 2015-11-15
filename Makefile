@@ -1,8 +1,9 @@
 CC=g++
 
 .SECONDEXPANSION:
-OBJECT=$(CC) $< -c -I include -Wall -Wextra -o $@
-OPTIMIZED=$(CC) $< -c -I include -Wall -Wextra -O2 -D NDEBUG -o $@
+OBJECT=$(CC) $< -c -I include -Wall -Wextra -std=c++11 -o $@
+OPTIMIZED=$(CC) $< -c -I include -Wall -Wextra -std=c++11 \
+		-O2 -D NDEBUG -o $@
 LINK=$(CC) $^ -o $@
 
 #################################################
