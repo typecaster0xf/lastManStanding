@@ -56,7 +56,20 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 			possibleMoves[moveNumber]));
 }
 
-ostream& operator<<(ostream& sout, const GameBoard gameBoard)
+GameBoard& GameBoard::operator=(const GameBoard &gameBoard)
+{
+	BoardSpace **clonerBoard = const_cast<BoardSpace**>(board);
+	
+	for(unsigned int j = 0; j < boardLength; j++)
+		memcpy(clonerBoard[j], gameBoard.board[j],
+				sizeof(BoardSpace) * boardLength);
+	
+	possibleMoves = determinePossibleMoves(board);
+	
+	return *this;
+}
+
+ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 {
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
 	{
@@ -86,7 +99,7 @@ ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 	return sout;
 }
 
-bool playGame(GameBoard gameBoard, ostream& sout)
+bool playGame(GameBoard gameBoard, ostream &sout)
 {
 	if(gameBoard.isGameWon())
 		return true;

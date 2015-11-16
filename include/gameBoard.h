@@ -19,8 +19,12 @@ public:
 	
 	GameBoard makeMove(unsigned int moveNumber);
 	
+	//======
+	
+	GameBoard& operator=(const GameBoard &gameBoard);
+	
 	friend
-	std::ostream& operator<<(std::ostream& sout,
+	std::ostream& operator<<(std::ostream &sout,
 			const GameBoard gameBoard);
 	
 protected:
@@ -44,7 +48,7 @@ protected:
 	
 	const BoardSpace **board;
 	
-	const std::vector<Move> possibleMoves;
+	std::vector<Move> possibleMoves;
 	
 	//======
 	
@@ -91,4 +95,4 @@ occurred, 'false' if all recursive possibilities
 were tried and no winning strategy was stumbled
 upon.
 */
-bool playGame(GameBoard gameBoard, std::ostream& sout);
+bool playGame(GameBoard gameBoard, std::ostream &sout);
