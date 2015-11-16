@@ -56,7 +56,7 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 			possibleMoves[moveNumber]));
 }
 
-GameBoard& GameBoard::operator=(const GameBoard &gameBoard)
+/*GameBoard& GameBoard::operator=(const GameBoard &gameBoard)
 {
 	BoardSpace **clonerBoard = const_cast<BoardSpace**>(board);
 	
@@ -67,7 +67,7 @@ GameBoard& GameBoard::operator=(const GameBoard &gameBoard)
 	possibleMoves = determinePossibleMoves(board);
 	
 	return *this;
-}
+}*/
 
 ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 {

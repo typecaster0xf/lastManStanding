@@ -21,7 +21,7 @@ public:
 	
 	//======
 	
-	GameBoard& operator=(const GameBoard &gameBoard);
+	//GameBoard& operator=(const GameBoard &gameBoard);
 	
 	friend
 	std::ostream& operator<<(std::ostream &sout,
@@ -48,7 +48,7 @@ protected:
 	
 	const BoardSpace **board;
 	
-	std::vector<Move> possibleMoves;
+	const std::vector<Move> possibleMoves;
 	
 	//======
 	
