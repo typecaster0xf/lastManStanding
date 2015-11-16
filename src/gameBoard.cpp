@@ -49,7 +49,26 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 {
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
-		switch(j)
+		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
+		{
+			switch(gameBoard.board[j][k])
+			{
+			case GameBoard::DOES_NOT_EXIST:
+				sout << ' ';
+				break;
+			case GameBoard::EMPTY:
+				sout << '_';
+				break;
+			case GameBoard::OCCUPIED:
+				sout << '0';
+				break;
+			default:
+				assert(false);
+			}
+			
+			sout << '\n';
+		}
+		/*switch(j)
 		{
 		case 0:
 		case 6:
@@ -61,7 +80,7 @@ ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 			break;
 		default:
 			GameBoard::printRow(sout, gameBoard.board[j], 7);
-		}
+		}*/
 	
 	return sout;
 }
@@ -247,5 +266,5 @@ void GameBoard::printRow(ostream& sout,
 	assert((rowLength == 3) || (rowLength == 5)
 			|| (rowLength == 7));
 	
-	//TODO
+	//for(unsigned int j = 0; j < boardLength
 }
