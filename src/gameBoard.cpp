@@ -53,6 +53,7 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 {
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
+	{
 		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
 		{
 			switch(gameBoard.board[j][k])
@@ -70,8 +71,11 @@ ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 				assert(false);
 			}
 			
-			sout << '\n';
+			sout << ' ';
 		}
+			
+		sout << '\n';
+	}
 	
 	return sout;
 }
