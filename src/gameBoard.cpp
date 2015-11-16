@@ -15,6 +15,12 @@ board(const_cast<const GameBoard::BoardSpace**>(
 possibleMoves(determinePossibleMoves(this->board))
 {}
 
+GameBoard::GameBoard(const GameBoard &gameBoard) :
+board(const_cast<const GameBoard::BoardSpace**>(
+		copyBoard(gameBoard.board))),
+possibleMoves(gameBoard.possibleMoves)
+{}
+
 GameBoard::~GameBoard()
 {
 	for(unsigned int j = 0; j < boardLength; j++)
@@ -185,6 +191,21 @@ GameBoard::BoardSpace** GameBoard::makeInitialSetup()
 	}
 	
 	return board;
+}
+
+GameBoard::BoardSpace** GameBoard::copyBoard(
+		const BoardSpace** board)
+{
+	BoardSpace **newBoard = new BoardSpace*[boardLength];
+	
+	for(unsigned int j = 0; j < boardLength; j++)
+	{
+		newBoard[j] = new BoardSpace[boardLength];
+		memcpy(newBoard[j], board[j],
+				sizeof(BoardSpace) * boardLength);
+	}
+	
+	return newBoard;
 }
 
 vector<GameBoard::Move> GameBoard::determinePossibleMoves(

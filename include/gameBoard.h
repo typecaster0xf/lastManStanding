@@ -8,6 +8,7 @@ class GameBoard
 public:
 	
 	GameBoard();
+	GameBoard(const GameBoard &gameBoard);
 	~GameBoard();
 	
 	//======
@@ -51,6 +52,9 @@ protected:
 	
 	static
 	BoardSpace** makeInitialSetup();
+	
+	static
+	BoardSpace** copyBoard(const BoardSpace** board);
 	
 	static
 	std::vector<Move> determinePossibleMoves(
