@@ -66,3 +66,22 @@ protected:
 	void printRow(std::ostream& sout, const BoardSpace* row,
 			const unsigned int rowLength);
 };
+
+/**
+Recursively tries all possible moves until a
+winning set of moves is on the stack.  When the
+stack is collapsed, it will print out the winning
+strategy (in reverse) to the console.
+
+Params:
+gameBoard= A GameBoard set to whatever positions
+will be evaluated in this recursive iteration.
+This will either be the return from the default
+constructor or from the makeMove function.
+
+Returns: 'true' if a winning strategy has
+occurred, 'false' if all recursive possibilities
+were tried and no winning strategy was stumbled
+upon.
+*/
+bool playGame(GameBoard gameBoard, std::ostream& sout);

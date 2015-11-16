@@ -85,6 +85,28 @@ ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 	return sout;
 }
 
+bool playGame(GameBoard gameBoard, ostream& sout)
+{
+	if(gameBoard.isGameWon())
+		return true;
+	
+	const unsigned int numberOfMoves =
+			gameBoard.getPossibleNumberOfMoves();
+	
+	for(unsigned int j = 0; j < numberOfMoves; j++)
+		if(playGame(gameBoard.makeMove(j), sout))
+		{/*Print put the game board at this level
+		in the stack to represent this move to
+		the user.*/
+			
+			sout << gameBoard <<
+					"=========================================\n";
+			return true;
+		}
+	
+	return false;
+}
+
 //===============================================
 
 GameBoard::GameBoard(GameBoard::BoardSpace** board) :
