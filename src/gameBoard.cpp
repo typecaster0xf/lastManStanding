@@ -285,7 +285,7 @@ GameBoard makeUnitTestBoard()
 	
 	board[2][0] = GameBoard::OCCUPIED;
 	board[2][1] = GameBoard::OCCUPIED;
-	board[4][2] = GameBoard::OCCUPIED;
+	board[3][2] = GameBoard::OCCUPIED;
 	
 	GameBoard gameBoard(board);
 	
