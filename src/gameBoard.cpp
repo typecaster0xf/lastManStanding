@@ -254,32 +254,28 @@ GameBoard::BoardSpace** GameBoard::makeMove(
 			|| (move.yFrom == move.yTo));
 	if(move.xFrom == move.xTo)
 	{
-		const unsigned int low =
-				min(move.yFrom, move.yTo);
-		const unsigned int high =
-				max(move.yFrom, move.yTo);
+		const unsigned int midPoint =
+				min(move.yFrom, move.yTo) + 1;
 		
-		assert(low + 2 == high);
+		assert(midPoint + 1 == max(move.yFrom, move.yTo));
+		assert(board[move.xFrom][midPoint] == OCCUPIED);
 		
-		assert(board[move.xFrom][low + 1] == OCCUPIED);
-		board[move.xFrom][low + 1] = EMPTY;
+		board[move.xFrom][midPoint] = EMPTY;
 	}else
 	{
 		assert(move.yFrom == move.yTo);
 		
-		const unsigned int low =
-				min(move.xFrom, move.xTo);
-		const unsigned int high =
-				max(move.xFrom, move.xTo);
+		const unsigned int midPoint =
+				min(move.xFrom, move.xTo) + 1;
 		
-		assert(low + 2 == high);
+		assert(midPoint + 1 == max(move.xFrom, move.xTo));
+		assert(board[midPoint][move.yFrom] == OCCUPIED);
 		
-		assert(board[low + 1][move.yFrom] == OCCUPIED);
-		board[low + 1][move.yFrom] = EMPTY;
+		board[midPoint][move.yFrom] = EMPTY;
 	}
 	
 	return board;
-}
+}//GameBoard::makeMove
 
 void GameBoard::printRow(ostream& sout,
 		const GameBoard::BoardSpace* row,
