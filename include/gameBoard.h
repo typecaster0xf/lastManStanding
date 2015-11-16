@@ -59,12 +59,6 @@ protected:
 	static
 	BoardSpace** makeMove(const BoardSpace** startingPositions,
 			const Move move);
-	
-	//======
-	
-	static
-	void printRow(std::ostream& sout, const BoardSpace* row,
-			const unsigned int rowLength);
 };
 
 /**

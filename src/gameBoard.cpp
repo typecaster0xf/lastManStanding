@@ -68,19 +68,6 @@ ostream& operator<<(ostream& sout, const GameBoard gameBoard)
 			
 			sout << '\n';
 		}
-		/*switch(j)
-		{
-		case 0:
-		case 6:
-			GameBoard::printRow(sout, gameBoard.board[j], 3);
-			break;
-		case 1:
-		case 5:
-			GameBoard::printRow(sout, gameBoard.board[j], 5);
-			break;
-		default:
-			GameBoard::printRow(sout, gameBoard.board[j], 7);
-		}*/
 	
 	return sout;
 }
@@ -276,13 +263,3 @@ GameBoard::BoardSpace** GameBoard::makeMove(
 	
 	return board;
 }//GameBoard::makeMove
-
-void GameBoard::printRow(ostream& sout,
-		const GameBoard::BoardSpace* row,
-		const unsigned int rowLength)
-{
-	assert((rowLength == 3) || (rowLength == 5)
-			|| (rowLength == 7));
-	
-	//for(unsigned int j = 0; j < boardLength
-}
