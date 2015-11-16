@@ -3,6 +3,10 @@
 #include <cstring>
 #include "gameBoard.h"
 
+#ifdef UNITTEST
+#include <iostream>
+#endif
+
 using namespace std;
 
 GameBoard::GameBoard() :
@@ -263,3 +267,40 @@ GameBoard::BoardSpace** GameBoard::makeMove(
 	
 	return board;
 }//GameBoard::makeMove
+
+#ifdef UNITTEST
+GameBoard makeUnitTestBoard()
+{
+	GameBoard::BoardSpace **board =
+			GameBoard::makeInitialSetup();
+	
+	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
+		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
+			if(board[j][k] == GameBoard::OCCUPIED)
+				board[j][k] = GameBoard::EMPTY;
+	
+	board[2][0] = GameBoard::OCCUPIED;
+	board[2][1] = GameBoard::OCCUPIED;
+	board[4][2] = GameBoard::OCCUPIED;
+	
+	GameBoard gameBoard(board);
+	
+	cout << "Initial board setup:\n" << gameBoard
+			<< "\n\n\n\n";
+	
+	return GameBoard(board);
+}
+#endif
+
+//===============================================
+
+#ifdef UNITTEST
+int main()
+{
+	const bool endValue = playGame(makeUnitTestBoard(), cout);
+	
+	cout << "Ending value: " << endValue << endl;
+	
+	return 0;
+}
+#endif

@@ -59,6 +59,15 @@ protected:
 	static
 	BoardSpace** makeMove(const BoardSpace** startingPositions,
 			const Move move);
+	
+	//======
+	
+public:
+	
+	#ifdef UNITTEST
+	friend
+	GameBoard makeUnitTestBoard();
+	#endif
 };
 
 /**
