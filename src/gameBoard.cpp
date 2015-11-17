@@ -3,30 +3,32 @@
 #include <cstring>
 #include "gameBoard.h"
 
-#ifdef UNITTEST
+//#ifdef UNITTEST
 #include <iostream>
-#endif
+//#endif
 
 using namespace std;
 
 GameBoard::GameBoard() :
-board(const_cast<const GameBoard::BoardSpace**>(
-		makeInitialSetup())),
+board(makeInitialSetup()),
 possibleMoves(determinePossibleMoves(this->board))
 {}
 
-GameBoard::GameBoard(const GameBoard &gameBoard) :
+/*GameBoard::GameBoard(const GameBoard &gameBoard) :
 board(const_cast<const GameBoard::BoardSpace**>(
 		copyBoard(gameBoard.board))),
 possibleMoves(gameBoard.possibleMoves)
-{}
+{
+cout << "Copy Constructor: " << board << endl;
+}
 
 GameBoard::~GameBoard()
 {
+cout << "Destructor: " << board << endl;
 	for(unsigned int j = 0; j < boardLength; j++)
 		delete [] board[j];
 	delete [] board;
-}
+}*/
 
 //===============================================
 
@@ -39,8 +41,8 @@ bool GameBoard::isGameWon()
 {
 	unsigned int numberOfOccupiedSpaces = 0;
 	
-	for(unsigned int j = 0; j < boardLength; j++)
-		for(unsigned int k = 0; k < boardLength; k++)
+	for(unsigned int j = 0; j < board.size(); j++)
+		for(unsigned int k = 0; k < board[j].size(); k++)
 			if(board[j][k] == OCCUPIED)
 				numberOfOccupiedSpaces++;
 	
@@ -71,11 +73,11 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 
 ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 {
-	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
+	for(unsigned int y = 0; y < gameBoard.board.size(); y++)
 	{
-		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
+		for(unsigned int x = 0; x < gameBoard.board[y].size(); x++)
 		{
-			switch(gameBoard.board[j][k])
+			switch(gameBoard.board[x][y])
 			{
 			case GameBoard::DOES_NOT_EXIST:
 				sout << ' ';
@@ -101,12 +103,15 @@ ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 
 bool playGame(GameBoard gameBoard, ostream &sout)
 {
+cout << "Play Game" << endl;
 	if(gameBoard.isGameWon())
 		return true;
 	
+cout << 1 << endl;
 	const unsigned int numberOfMoves =
 			gameBoard.getPossibleNumberOfMoves();
 	
+cout << 2 << endl;
 	for(unsigned int j = 0; j < numberOfMoves; j++)
 		if(playGame(gameBoard.makeMove(j), sout))
 		{/*Print put the game board at this level
@@ -123,12 +128,14 @@ bool playGame(GameBoard gameBoard, ostream &sout)
 
 //===============================================
 
-GameBoard::GameBoard(GameBoard::BoardSpace** board) :
-board(const_cast<const GameBoard::BoardSpace**>(board)),
+GameBoard::GameBoard(GameBoard::BoardMatrix board) :
+board(board),
 possibleMoves(determinePossibleMoves(this->board))
-{}
+{
+cout << "Specifying Constructor: " << board << endl;
+}
 
-GameBoard::BoardSpace** GameBoard::makeInitialSetup()
+GameBoard::BoardMatrix GameBoard::makeInitialSetup()
 {
 	const BoardSpace r3[boardLength] =
 	{
@@ -171,43 +178,41 @@ GameBoard::BoardSpace** GameBoard::makeInitialSetup()
 		OCCUPIED
 	};
 	
-	BoardSpace **board = new BoardSpace*[boardLength];
+	BoardMatrix board;
 	
-	for(unsigned int j = 0; j < boardLength; j++)
+	board.resize(boardLength);
+	for(unsigned int j = 0; j < board.size(); j++)
 	{
-		board[j] = new BoardSpace[boardLength];
+		board[j].resize(boardLength);
 		
-		switch(j)
-		{
-		case 0:
-		case 6:
-			memcpy(board[j], &r3,
-					sizeof(BoardSpace) * boardLength);
-			break;
-		case 1:
-		case 5:
-			memcpy(board[j], &r5,
-					sizeof(BoardSpace) * boardLength);
-			break;
-		case 2:
-		case 4:
-			memcpy(board[j], &r7,
-					sizeof(BoardSpace) * boardLength);
-			break;
-		case 3:
-			memcpy(board[j], &rCenter,
-					sizeof(BoardSpace) * boardLength);
-			break;
-		default:
-			assert(0);
-		}
+		for(unsigned int k = 0; k < board[j].size(); k++)
+			switch(j)
+			{
+			case 0:
+			case 6:
+				board[j][k] = r3[k];
+				break;
+			case 1:
+			case 5:
+				board[j][k] = r5[k];
+				break;
+			case 2:
+			case 4:
+				board[j][k] = r7[k];
+				break;
+			case 3:
+				board[j][k] = rCenter[k];
+				break;
+			default:
+				assert(0);
+			}
 	}
 	
 	return board;
 }
 
-GameBoard::BoardSpace** GameBoard::copyBoard(
-		const BoardSpace** board)
+/*GameBoard::BoardMatrix GameBoard::copyBoard(
+		const BoardMatrix board)
 {
 	BoardSpace **newBoard = new BoardSpace*[boardLength];
 	
@@ -219,15 +224,15 @@ GameBoard::BoardSpace** GameBoard::copyBoard(
 	}
 	
 	return newBoard;
-}
+}*/
 
 vector<GameBoard::Move> GameBoard::determinePossibleMoves(
-		const GameBoard::BoardSpace** board)
+		const GameBoard::BoardMatrix board)
 {
 	vector<Move> moves;
 	
-	for(unsigned int x = 0; x < boardLength; x++)
-		for(unsigned int y = 0; y < boardLength; y++)
+	for(unsigned int y = 0; y < board.size(); y++)
+		for(unsigned int x = 0; x < board[y].size(); x++)
 			if(board[x][y] == OCCUPIED)
 			{
 				/*Move marble left.*/
@@ -256,17 +261,11 @@ vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 	return moves;
 }
 
-GameBoard::BoardSpace** GameBoard::makeMove(
-		const GameBoard::BoardSpace** startingPositions,
+GameBoard::BoardMatrix GameBoard::makeMove(
+		const GameBoard::BoardMatrix startingPositions,
 		const GameBoard::Move move)
 {
-	BoardSpace** board = new BoardSpace*[boardLength];
-	for(unsigned int j = 0; j < boardLength; j++)
-	{
-		board[j] = new BoardSpace[boardLength];
-		memcpy(board[j], startingPositions[j],
-				sizeof(BoardSpace) * boardLength);
-	}
+	BoardMatrix board(startingPositions);
 	
 	assert(move.xFrom < boardLength);
 	assert(move.yFrom < boardLength);
@@ -309,7 +308,7 @@ GameBoard::BoardSpace** GameBoard::makeMove(
 #ifdef UNITTEST
 GameBoard makeUnitTestBoard()
 {
-	GameBoard::BoardSpace **board =
+	GameBoard::BoardMatrix board =
 			GameBoard::makeInitialSetup();
 	
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)

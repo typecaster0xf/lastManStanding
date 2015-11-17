@@ -8,8 +8,8 @@ class GameBoard
 public:
 	
 	GameBoard();
-	GameBoard(const GameBoard &gameBoard);
-	~GameBoard();
+	//GameBoard(const GameBoard &gameBoard);
+	//~GameBoard();
 	
 	//======
 	
@@ -36,6 +36,8 @@ protected:
 		EMPTY
 	};
 	
+	typedef std::vector< std::vector<BoardSpace> > BoardMatrix;
+	
 	struct Move
 	{
 		const unsigned int xFrom, yFrom;
@@ -46,26 +48,26 @@ protected:
 	
 	static const unsigned int boardLength = 7;
 	
-	const BoardSpace **board;
+	const BoardMatrix board;
 	
 	const std::vector<Move> possibleMoves;
 	
 	//======
 	
-	GameBoard(BoardSpace** board);
+	GameBoard(const BoardMatrix board);
 	
 	static
-	BoardSpace** makeInitialSetup();
+	BoardMatrix makeInitialSetup();
 	
-	static
-	BoardSpace** copyBoard(const BoardSpace** board);
+	//static
+	//BoardMatrix copyBoard(const BoardMatrix board);
 	
 	static
 	std::vector<Move> determinePossibleMoves(
-			const BoardSpace** board);
+			const BoardMatrix board);
 	
 	static
-	BoardSpace** makeMove(const BoardSpace** startingPositions,
+	BoardMatrix makeMove(const BoardMatrix startingPositions,
 			const Move move);
 	
 	//======
