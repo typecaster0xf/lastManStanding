@@ -5,7 +5,7 @@ OBJECT=$(CC) $< -c -I include -Wall -Wextra -std=c++11 -o $@
 OPTIMIZED=$(CC) $< -c -I include -Wall -Wextra -std=c++11 \
 		-O2 -D NDEBUG -o $@
 UNIT_TEST=$(CC) $< -c -I include -Wall -Wextra -std=c++11 \
-		-D UNITTEST -o $@
+		-g -D UNITTEST -o $@
 LINK=$(CC) $^ -o $@
 
 #################################################

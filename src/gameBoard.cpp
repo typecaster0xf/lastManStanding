@@ -73,6 +73,7 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 
 ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 {
+cout << "Aardvark" << endl;
 	for(unsigned int y = 0; y < gameBoard.board.size(); y++)
 	{
 		for(unsigned int x = 0; x < gameBoard.board[y].size(); x++)
@@ -132,7 +133,7 @@ GameBoard::GameBoard(GameBoard::BoardMatrix board) :
 board(board),
 possibleMoves(determinePossibleMoves(this->board))
 {
-cout << "Specifying Constructor: " << board << endl;
+cout << "Specifying Constructor: " << endl;
 }
 
 GameBoard::BoardMatrix GameBoard::makeInitialSetup()
@@ -229,6 +230,7 @@ GameBoard::BoardMatrix GameBoard::makeInitialSetup()
 vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 		const GameBoard::BoardMatrix board)
 {
+//cout << "Come and feed us" << endl;
 	vector<Move> moves;
 	
 	for(unsigned int y = 0; y < board.size(); y++)
@@ -258,6 +260,7 @@ vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 					moves.push_back({x, y, x, y + 2});
 			}
 	
+//cout << "Never going to bring me down" << endl;
 	return moves;
 }
 
@@ -308,9 +311,11 @@ GameBoard::BoardMatrix GameBoard::makeMove(
 #ifdef UNITTEST
 GameBoard makeUnitTestBoard()
 {
+cout << "Laura" << endl;
 	GameBoard::BoardMatrix board =
 			GameBoard::makeInitialSetup();
 	
+cout << "Wendy" << endl;
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
 		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
 			if(board[j][k] == GameBoard::OCCUPIED)
@@ -320,7 +325,9 @@ GameBoard makeUnitTestBoard()
 	board[2][1] = GameBoard::OCCUPIED;
 	board[3][2] = GameBoard::OCCUPIED;
 	
+cout << "Delphinium" << endl;
 	GameBoard gameBoard(board);
+cout << "Alexa" << endl;
 	
 	cout << "Initial board setup:\n" << gameBoard
 			<< "\n\n\n\n";
