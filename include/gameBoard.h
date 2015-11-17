@@ -8,8 +8,6 @@ class GameBoard
 public:
 	
 	GameBoard();
-	//GameBoard(const GameBoard &gameBoard);
-	//~GameBoard();
 	
 	//======
 	
@@ -20,8 +18,6 @@ public:
 	GameBoard makeMove(unsigned int moveNumber);
 	
 	//======
-	
-	//GameBoard& operator=(const GameBoard &gameBoard);
 	
 	friend
 	std::ostream& operator<<(std::ostream &sout,
@@ -58,9 +54,6 @@ protected:
 	
 	static
 	BoardMatrix makeInitialSetup();
-	
-	//static
-	//BoardMatrix copyBoard(const BoardMatrix board);
 	
 	static
 	std::vector<Move> determinePossibleMoves(

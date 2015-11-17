@@ -3,9 +3,9 @@
 #include <cstring>
 #include "gameBoard.h"
 
-//#ifdef UNITTEST
+#ifdef UNITTEST
 #include <iostream>
-//#endif
+#endif
 
 using namespace std;
 
@@ -13,22 +13,6 @@ GameBoard::GameBoard() :
 board(makeInitialSetup()),
 possibleMoves(determinePossibleMoves(this->board))
 {}
-
-/*GameBoard::GameBoard(const GameBoard &gameBoard) :
-board(const_cast<const GameBoard::BoardSpace**>(
-		copyBoard(gameBoard.board))),
-possibleMoves(gameBoard.possibleMoves)
-{
-cout << "Copy Constructor: " << board << endl;
-}
-
-GameBoard::~GameBoard()
-{
-cout << "Destructor: " << board << endl;
-	for(unsigned int j = 0; j < boardLength; j++)
-		delete [] board[j];
-	delete [] board;
-}*/
 
 //===============================================
 
@@ -58,22 +42,8 @@ GameBoard GameBoard::makeMove(unsigned int moveNumber)
 			possibleMoves[moveNumber]));
 }
 
-/*GameBoard& GameBoard::operator=(const GameBoard &gameBoard)
-{
-	BoardSpace **clonerBoard = const_cast<BoardSpace**>(board);
-	
-	for(unsigned int j = 0; j < boardLength; j++)
-		memcpy(clonerBoard[j], gameBoard.board[j],
-				sizeof(BoardSpace) * boardLength);
-	
-	possibleMoves = determinePossibleMoves(board);
-	
-	return *this;
-}*/
-
 ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 {
-cout << "Aardvark" << endl;
 	for(unsigned int y = 0; y < gameBoard.board.size(); y++)
 	{
 		for(unsigned int x = 0; x < gameBoard.board[y].size(); x++)
@@ -104,15 +74,16 @@ cout << "Aardvark" << endl;
 
 bool playGame(GameBoard gameBoard, ostream &sout)
 {
-cout << "Play Game" << endl;
 	if(gameBoard.isGameWon())
+	{
+		sout << gameBoard <<
+				"=========================================\n";
 		return true;
+	}
 	
-cout << 1 << endl;
 	const unsigned int numberOfMoves =
 			gameBoard.getPossibleNumberOfMoves();
 	
-cout << 2 << endl;
 	for(unsigned int j = 0; j < numberOfMoves; j++)
 		if(playGame(gameBoard.makeMove(j), sout))
 		{/*Print put the game board at this level
@@ -132,9 +103,7 @@ cout << 2 << endl;
 GameBoard::GameBoard(GameBoard::BoardMatrix board) :
 board(board),
 possibleMoves(determinePossibleMoves(this->board))
-{
-cout << "Specifying Constructor: " << endl;
-}
+{}
 
 GameBoard::BoardMatrix GameBoard::makeInitialSetup()
 {
@@ -212,25 +181,9 @@ GameBoard::BoardMatrix GameBoard::makeInitialSetup()
 	return board;
 }
 
-/*GameBoard::BoardMatrix GameBoard::copyBoard(
-		const BoardMatrix board)
-{
-	BoardSpace **newBoard = new BoardSpace*[boardLength];
-	
-	for(unsigned int j = 0; j < boardLength; j++)
-	{
-		newBoard[j] = new BoardSpace[boardLength];
-		memcpy(newBoard[j], board[j],
-				sizeof(BoardSpace) * boardLength);
-	}
-	
-	return newBoard;
-}*/
-
 vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 		const GameBoard::BoardMatrix board)
 {
-//cout << "Come and feed us" << endl;
 	vector<Move> moves;
 	
 	for(unsigned int y = 0; y < board.size(); y++)
@@ -260,7 +213,6 @@ vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 					moves.push_back({x, y, x, y + 2});
 			}
 	
-//cout << "Never going to bring me down" << endl;
 	return moves;
 }
 
@@ -311,11 +263,9 @@ GameBoard::BoardMatrix GameBoard::makeMove(
 #ifdef UNITTEST
 GameBoard makeUnitTestBoard()
 {
-cout << "Laura" << endl;
 	GameBoard::BoardMatrix board =
 			GameBoard::makeInitialSetup();
 	
-cout << "Wendy" << endl;
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
 		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
 			if(board[j][k] == GameBoard::OCCUPIED)
@@ -325,9 +275,7 @@ cout << "Wendy" << endl;
 	board[2][1] = GameBoard::OCCUPIED;
 	board[3][2] = GameBoard::OCCUPIED;
 	
-cout << "Delphinium" << endl;
 	GameBoard gameBoard(board);
-cout << "Alexa" << endl;
 	
 	cout << "Initial board setup:\n" << gameBoard
 			<< "\n\n\n\n";
