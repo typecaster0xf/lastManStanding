@@ -260,10 +260,10 @@ GameBoard makeUnitTestBoard()
 	GameBoard::BoardMatrix board =
 			GameBoard::makeInitialSetup();
 	
-	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
-		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
-			if(board[j][k] == GameBoard::BoardSpace::OCCUPIED)
-				board[j][k] = GameBoard::BoardSpace::EMPTY;
+	for(auto& row : board)
+		for(auto& cell : row)
+			if(cell == GameBoard::BoardSpace::OCCUPIED)
+				cell = GameBoard::BoardSpace::EMPTY;
 	
 	board[2][0] = GameBoard::BoardSpace::OCCUPIED;
 	board[2][1] = GameBoard::BoardSpace::OCCUPIED;
