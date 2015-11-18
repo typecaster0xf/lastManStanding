@@ -25,9 +25,9 @@ bool GameBoard::isGameWon()
 {
 	unsigned int numberOfOccupiedSpaces = 0;
 	
-	for(unsigned int j = 0; j < board.size(); j++)
-		for(unsigned int k = 0; k < board[j].size(); k++)
-			if(board[j][k] == BoardSpace::OCCUPIED)
+	for(auto& row; board)
+		for(auto& cell; row)
+			if(cell == BoardSpace::OCCUPIED)
 				numberOfOccupiedSpaces++;
 	
 	assert(numberOfOccupiedSpaces > 0);
