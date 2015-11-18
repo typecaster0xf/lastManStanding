@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <ostream>
 #include <vector>
 
@@ -25,7 +26,7 @@ public:
 	
 protected:
 	
-	enum BoardSpace
+	enum class BoardSpace : uint8_t
 	{
 		DOES_NOT_EXIST,
 		OCCUPIED,

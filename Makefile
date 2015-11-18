@@ -10,7 +10,7 @@ LINK=$(CC) $^ -o $@
 
 #################################################
 
-lastManStanding.exe: \
+lastManStanding2.exe: \
 		bin/main__opt.o \
 		bin/gameBoard__opt.o
 	$(LINK)

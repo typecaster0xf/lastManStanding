@@ -27,7 +27,7 @@ bool GameBoard::isGameWon()
 	
 	for(unsigned int j = 0; j < board.size(); j++)
 		for(unsigned int k = 0; k < board[j].size(); k++)
-			if(board[j][k] == OCCUPIED)
+			if(board[j][k] == BoardSpace::OCCUPIED)
 				numberOfOccupiedSpaces++;
 	
 	assert(numberOfOccupiedSpaces > 0);
@@ -50,13 +50,13 @@ ostream& operator<<(ostream &sout, const GameBoard gameBoard)
 		{
 			switch(gameBoard.board[x][y])
 			{
-			case GameBoard::DOES_NOT_EXIST:
+			case GameBoard::BoardSpace::DOES_NOT_EXIST:
 				sout << ' ';
 				break;
-			case GameBoard::EMPTY:
+			case GameBoard::BoardSpace::EMPTY:
 				sout << '_';
 				break;
-			case GameBoard::OCCUPIED:
+			case GameBoard::BoardSpace::OCCUPIED:
 				sout << '0';
 				break;
 			default:
@@ -107,79 +107,71 @@ possibleMoves(determinePossibleMoves(this->board))
 
 GameBoard::BoardMatrix GameBoard::makeInitialSetup()
 {
-	const BoardSpace r3[boardLength] =
-	{
-		DOES_NOT_EXIST,
-		DOES_NOT_EXIST,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		DOES_NOT_EXIST,
-		DOES_NOT_EXIST
-	};
-	const BoardSpace r5[boardLength] =
-	{
-		DOES_NOT_EXIST,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		DOES_NOT_EXIST
-	};
-	const BoardSpace r7[boardLength] =
-	{
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED
-	};
-	const BoardSpace rCenter[boardLength] =
-	{
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED,
-		EMPTY,
-		OCCUPIED,
-		OCCUPIED,
-		OCCUPIED
-	};
-	
 	BoardMatrix board;
 	
 	board.resize(boardLength);
 	for(unsigned int j = 0; j < board.size(); j++)
 	{
-		board[j].resize(boardLength);
-		
-		for(unsigned int k = 0; k < board[j].size(); k++)
-			switch(j)
+		switch(j)
+		{
+		case 0:
+		case 6:
+			board[j] =
 			{
-			case 0:
-			case 6:
-				board[j][k] = r3[k];
-				break;
-			case 1:
-			case 5:
-				board[j][k] = r5[k];
-				break;
-			case 2:
-			case 4:
-				board[j][k] = r7[k];
-				break;
-			case 3:
-				board[j][k] = rCenter[k];
-				break;
-			default:
-				assert(0);
-			}
+				BoardSpace::DOES_NOT_EXIST,
+				BoardSpace::DOES_NOT_EXIST,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::DOES_NOT_EXIST,
+				BoardSpace::DOES_NOT_EXIST
+			};
+			break;
+		case 1:
+		case 5:
+			board[j] =
+			{
+				BoardSpace::DOES_NOT_EXIST,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::DOES_NOT_EXIST
+			};
+			break;
+		case 2:
+		case 4:
+			board[j] =
+			{
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED
+			};
+			break;
+		case 3:
+			board[j] =
+			{
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::EMPTY,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED,
+				BoardSpace::OCCUPIED
+			};
+			break;
+		default:
+			assert(0);
+		}
 	}
 	
 	return board;
-}
+}//GameBoard::makeInitialSetup()
 
 vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 		const GameBoard::BoardMatrix board)
@@ -188,28 +180,30 @@ vector<GameBoard::Move> GameBoard::determinePossibleMoves(
 	
 	for(unsigned int y = 0; y < board.size(); y++)
 		for(unsigned int x = 0; x < board[y].size(); x++)
-			if(board[x][y] == OCCUPIED)
+			if(board[x][y] == BoardSpace::OCCUPIED)
 			{
 				/*Move marble left.*/
-				if((x >= 2) && (board[x - 1][y] == OCCUPIED)
-						&& (board[x - 2][y] == EMPTY))
+				if((x >= 2)
+						&& (board[x - 1][y] == BoardSpace::OCCUPIED)
+						&& (board[x - 2][y] == BoardSpace::EMPTY))
 					moves.push_back({x, y, x - 2, y});
 				
 				/*Move marble right.*/
 				if((x + 2 < boardLength)
-						&& (board[x + 1][y] == OCCUPIED)
-						&& (board[x + 2][y] == EMPTY))
+						&& (board[x + 1][y] == BoardSpace::OCCUPIED)
+						&& (board[x + 2][y] == BoardSpace::EMPTY))
 					moves.push_back({x, y, x + 2, y});
 				
 				/*Move marble down.*/
-				if((y >= 2) && (board[x][y - 1] == OCCUPIED)
-						&& (board[x][y - 2] == EMPTY))
+				if((y >= 2)
+						&& (board[x][y - 1] == BoardSpace::OCCUPIED)
+						&& (board[x][y - 2] == BoardSpace::EMPTY))
 					moves.push_back({x, y, x, y - 2});
 				
 				/*Move marble up.*/
 				if((y + 2 < boardLength)
-						&& (board[x][y + 1] == OCCUPIED)
-						&& (board[x][y + 2] == EMPTY))
+						&& (board[x][y + 1] == BoardSpace::OCCUPIED)
+						&& (board[x][y + 2] == BoardSpace::EMPTY))
 					moves.push_back({x, y, x, y + 2});
 			}
 	
@@ -227,11 +221,11 @@ GameBoard::BoardMatrix GameBoard::makeMove(
 	assert(move.xTo   < boardLength);
 	assert(move.yTo   < boardLength);
 	
-	assert(board[move.xFrom][move.yFrom] == OCCUPIED);
-	board[move.xFrom][move.yFrom] = EMPTY;
+	assert(board[move.xFrom][move.yFrom] == BoardSpace::OCCUPIED);
+	board[move.xFrom][move.yFrom] = BoardSpace::EMPTY;
 	
-	assert(board[move.xTo][move.yTo] == EMPTY);
-	board[move.xTo][move.yTo] = OCCUPIED;
+	assert(board[move.xTo][move.yTo] == BoardSpace::EMPTY);
+	board[move.xTo][move.yTo] = BoardSpace::OCCUPIED;
 	
 	assert((move.xFrom == move.xTo)
 			|| (move.yFrom == move.yTo));
@@ -241,9 +235,9 @@ GameBoard::BoardMatrix GameBoard::makeMove(
 				min(move.yFrom, move.yTo) + 1;
 		
 		assert(midPoint + 1 == max(move.yFrom, move.yTo));
-		assert(board[move.xFrom][midPoint] == OCCUPIED);
+		assert(board[move.xFrom][midPoint] == BoardSpace::OCCUPIED);
 		
-		board[move.xFrom][midPoint] = EMPTY;
+		board[move.xFrom][midPoint] = BoardSpace::EMPTY;
 	}else
 	{
 		assert(move.yFrom == move.yTo);
@@ -252,9 +246,9 @@ GameBoard::BoardMatrix GameBoard::makeMove(
 				min(move.xFrom, move.xTo) + 1;
 		
 		assert(midPoint + 1 == max(move.xFrom, move.xTo));
-		assert(board[midPoint][move.yFrom] == OCCUPIED);
+		assert(board[midPoint][move.yFrom] == BoardSpace::OCCUPIED);
 		
-		board[midPoint][move.yFrom] = EMPTY;
+		board[midPoint][move.yFrom] = BoardSpace::EMPTY;
 	}
 	
 	return board;
@@ -268,12 +262,12 @@ GameBoard makeUnitTestBoard()
 	
 	for(unsigned int j = 0; j < GameBoard::boardLength; j++)
 		for(unsigned int k = 0; k < GameBoard::boardLength; k++)
-			if(board[j][k] == GameBoard::OCCUPIED)
-				board[j][k] = GameBoard::EMPTY;
+			if(board[j][k] == GameBoard::BoardSpace::OCCUPIED)
+				board[j][k] = GameBoard::BoardSpace::EMPTY;
 	
-	board[2][0] = GameBoard::OCCUPIED;
-	board[2][1] = GameBoard::OCCUPIED;
-	board[3][2] = GameBoard::OCCUPIED;
+	board[2][0] = GameBoard::BoardSpace::OCCUPIED;
+	board[2][1] = GameBoard::BoardSpace::OCCUPIED;
+	board[3][2] = GameBoard::BoardSpace::OCCUPIED;
 	
 	GameBoard gameBoard(board);
 	
