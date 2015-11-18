@@ -25,8 +25,8 @@ bool GameBoard::isGameWon()
 {
 	unsigned int numberOfOccupiedSpaces = 0;
 	
-	for(auto& row; board)
-		for(auto& cell; row)
+	for(auto& row : board)
+		for(auto& cell : row)
 			if(cell == BoardSpace::OCCUPIED)
 				numberOfOccupiedSpaces++;
 	
